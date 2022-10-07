@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xuhui_widget/tab_section_screen/hideableWidget.dart';
 import 'package:xuhui_widget/tab_section_screen/main_body_content_layout.dart';
 import 'package:xuhui_widget/tab_section_screen/section_tab_bar.dart';
+import 'package:xuhui_widget/tab_section_screen/tab_bar/tab_bar.dart';
 
 class SectionScreen extends StatefulWidget {
   const SectionScreen({Key? key}) : super(key: key);
@@ -14,13 +15,28 @@ class _SectionScreenState extends State<SectionScreen>
     with SingleTickerProviderStateMixin {
   final ScrollController scrollController = ScrollController();
   TabController? sectionTabController;
-  List<Tab> displayedTabs = [];
+
   dynamic parsedTabIndexDictionary = {
     0: SectionScreenTab.Xuhui,
     1: SectionScreenTab.Wangkehong,
     2: SectionScreenTab.Wangxincen,
     3: SectionScreenTab.Xuhao,
   };
+
+  List<Tab> displayedTabs = [
+    Tab(
+      text: 'Xuhui',
+    ),
+    Tab(
+      text: 'Wangkehong',
+    ),
+    Tab(
+      text: 'Wangxincen',
+    ),
+    Tab(
+      text: 'Xuhao',
+    ),
+  ];
 
   ///当前选中的页面的index
   int selectSectionTabIndex = 0;
@@ -33,6 +49,7 @@ class _SectionScreenState extends State<SectionScreen>
   void setupTabController() {
     sectionTabController = TabController(length: 4, vsync: this);
     sectionTabController!.addListener(() {
+      print(sectionTabController!.index);
       setState(() {
         setTabBarIndex(sectionTabController!.index);
       });
@@ -136,6 +153,7 @@ class _SectionScreenState extends State<SectionScreen>
   @override
   void initState() {
     super.initState();
+    setupTabController();
     scrollController.addListener(() {
       print(scrollController.offset);
     });
@@ -165,19 +183,31 @@ class _SectionScreenState extends State<SectionScreen>
         controller: scrollController,
         slivers: [
           SliverAppBar(
-            expandedHeight: 680,
+            expandedHeight: 400,
+            forceElevated: true,
             toolbarHeight: 105,
+            elevation: 3,
+            automaticallyImplyLeading: false,
             pinned: true,
             primary: true,
             titleSpacing: 0,
             title: HideableWidget(
-              child: Text('测试吸顶'),
+              child: MobileTickerHeaderWhenCollapse(
+                sectionTabController: sectionTabController,
+                customSectionTabs: displayedTabs,
+              ),
             ),
             flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                background: Container(
-                  color: Colors.grey,
-                )),
+              collapseMode: CollapseMode.pin,
+              background: MobileTickerHeader(
+                sectionTabController: sectionTabController,
+                customSectionTabs: displayedTabs,
+                setHeaderExpandedHeight: () {},
+                setSectionTabBarIndex: (int index) {
+                  setTabBarIndex(index);
+                },
+              ),
+            ),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
