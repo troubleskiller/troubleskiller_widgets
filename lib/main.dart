@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xuhui_widget/tab_section_screen/section_screen.dart';
+import 'package:xuhui_widget/dynamic_island/dynamic_island.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SectionScreen(),
+      home: const DynamicIsland(),
     );
   }
 }
