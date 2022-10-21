@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'island_type.dart';
+
 class DynamicIsland extends StatefulWidget {
   const DynamicIsland({Key? key}) : super(key: key);
 
@@ -28,18 +30,18 @@ class _PageContainerState extends State<PageContainer> {
   bool shrinked = true;
   final List<Island> islands = [
     const Island(
-        shrinkedIsland: CallShrinked(),
-        expandedIsland: CallExpanded(),
+        shrinkedIsland: CallShrinked(islandType: IslandType.phoneCall,),
+        expandedIsland: CallExpanded(islandType: IslandType.phoneCall,),
         expandedHeight: 60,
         expandedBorderRadius: 40),
     const Island(
-        shrinkedIsland: CallShrinked(),
-        expandedIsland: CallExpanded(),
+        shrinkedIsland: CallShrinked(islandType: IslandType.music,),
+        expandedIsland: CallExpanded(islandType: IslandType.music,),
         expandedHeight: 60,
         expandedBorderRadius: 40),
     const Island(
-        shrinkedIsland: CallShrinked(),
-        expandedIsland: CallExpanded(),
+        shrinkedIsland: CallShrinked(islandType: IslandType.map,),
+        expandedIsland: CallExpanded(islandType: IslandType.map,),
         expandedHeight: 60,
         expandedBorderRadius: 40),
   ];
@@ -136,7 +138,8 @@ class Island {
 }
 
 class CallShrinked extends StatelessWidget {
-  const CallShrinked({Key? key}) : super(key: key);
+  const CallShrinked({Key? key, required this.islandType}) : super(key: key);
+  final IslandType islandType;
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +148,9 @@ class CallShrinked extends StatelessWidget {
       child: Row(
         children: [
           Row(
-            children: const [
+            children:  [
               Icon(
-                Icons.call,
+                islandTypeShrinkedIconData[islandType],
                 color: Colors.greenAccent,
                 size: 16,
               ),
@@ -173,7 +176,8 @@ class CallShrinked extends StatelessWidget {
 }
 
 class CallExpanded extends StatelessWidget {
-  const CallExpanded({Key? key}) : super(key: key);
+  const CallExpanded({Key? key, required this.islandType}) : super(key: key);
+  final IslandType islandType;
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +187,9 @@ class CallExpanded extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              children: const [
+              children:  [
                 Icon(
-                  Icons.call,
+                  islandTypeShrinkedIconData[islandType],
                   color: Colors.greenAccent,
                   size: 30,
                 ),
